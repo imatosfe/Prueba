@@ -68,9 +68,7 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOWED_ORIGINS = [
-    'https://yamelmatos06.wixstudio.io'
-]
+CORS_ALLOW_ALL_ORIGINS = True 
 
 
 ROOT_URLCONF = 'apihtp.urls'
