@@ -150,4 +150,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Asegúrate de que LOGIN_URL está configurado
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = None
