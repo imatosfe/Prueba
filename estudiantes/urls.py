@@ -6,7 +6,7 @@ from django.urls import path, include
 from .views import EstudianteViewSet
 
 router = DefaultRouter()
-router.register(r'estudiantes', EstudianteViewSet)
+router.register(r'', EstudianteViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

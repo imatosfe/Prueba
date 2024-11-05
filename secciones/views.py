@@ -8,17 +8,33 @@ from estudiantes.models import Estudiante
 from .models import Seccion, SeccionEstudiante
 from .serializers import SeccionSerializer, SeccionEstudianteSerializer
 
+from rest_framework.decorators import api_view, schema
+
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+
+estudiante_id_param = openapi.Parameter('estudiante_id', openapi.IN_PATH, description="ID del estudiante", type=openapi.TYPE_INTEGER)
+seccion_id_param = openapi.Parameter('seccion_id', openapi.IN_PATH, description="ID de la sección", type=openapi.TYPE_INTEGER)
+
+
 # Crear sección
+
 class CrearSeccionAPI(generics.CreateAPIView):
     queryset = Seccion.objects.all()
     serializer_class = SeccionSerializer
+    @swagger_auto_schema(request_body=SeccionSerializer)
+    def post(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
 # Listar secciones
+@swagger_auto_schema(method='get')
 class ListaSeccionesAPI(generics.ListAPIView):
     queryset = Seccion.objects.all()
     serializer_class = SeccionSerializer
     # secciones/views_api.py
 
+@swagger_auto_schema(method='put', manual_parameters=[seccion_id_param])
 @api_view(['PUT'])
 def editar_seccion_api(request, seccion_id):
     seccion = get_object_or_404(Seccion, id=seccion_id)
@@ -33,6 +49,7 @@ def editar_seccion_api(request, seccion_id):
 
 # secciones/views_api.py
 
+@swagger_auto_schema(method='delete', manual_parameters=[seccion_id_param])
 @api_view(['DELETE'])
 def eliminar_seccion_api(request, seccion_id):
     seccion = get_object_or_404(Seccion, id=seccion_id)
@@ -71,6 +88,7 @@ def gestionar_seccion_api(request, seccion_id):
 
 
 # Eliminar estudiante de sección
+@swagger_auto_schema(method='delete', manual_parameters=[seccion_id_param, estudiante_id_param])
 @api_view(['DELETE'])
 def eliminar_estudiante_api(request, seccion_id, estudiante_id):
     seccion_estudiante = get_object_or_404(SeccionEstudiante, seccion_id=seccion_id, estudiante_id=estudiante_id)
@@ -81,6 +99,7 @@ def eliminar_estudiante_api(request, seccion_id, estudiante_id):
 
 # secciones/views_api.py
 
+@swagger_auto_schema(method='put', manual_parameters=[seccion_id_param, estudiante_id_param])
 @api_view(['PUT'])
 def editar_estudiante_en_seccion_api(request, seccion_id, estudiante_id):
     seccion = get_object_or_404(Seccion, id=seccion_id)

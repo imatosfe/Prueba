@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'estudiantes',
       'corsheaders',
+       'drf_yasg', 
 
   
     'profesores',
