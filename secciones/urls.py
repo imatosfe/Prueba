@@ -20,6 +20,6 @@ urlpatterns = [
     path('/<int:seccion_id>/', gestionar_seccion_api, name='gestionar_seccion'),
     path('<int:seccion_id>', editar_seccion_api, name='editar_seccion'),
     path('<int:seccion_id>/estudiantes/<int:estudiante_id>/', editar_estudiante_en_seccion_api, name='editar_estudiante_en_seccion'),  # Nueva ruta
-    path('<int:seccion_id>', eliminar_seccion_api, name='eliminar_seccion'),
+    path('eliminar/<int:seccion_id>', eliminar_seccion_api, name='eliminar_seccion'),
     path('<int:seccion_id>/estudiantes/<int:estudiante_id>', eliminar_estudiante_api, name='eliminar_estudiante'),
 ]
