@@ -31,7 +31,7 @@ class CrearSeccionAPI(generics.CreateAPIView):
 @swagger_auto_schema(method='get')
 class ListaSeccionesAPI(generics.ListAPIView):
     queryset = Seccion.objects.all()
-    serializer_class = SeccionSerializer
+    serializer_class = SeccionSerializer2
     # secciones/views_api.py
 
 @swagger_auto_schema(method='get')
