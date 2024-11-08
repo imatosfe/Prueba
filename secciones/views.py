@@ -56,7 +56,7 @@ def eliminar_seccion_api(request, seccion_id):
 
     try:
         seccion.delete()
-        return Response({'success': True, 'message': 'Sección eliminada exitosamente.'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'success': True, 'message': 'Sección eliminada exitosamente.'}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'success': False, 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
