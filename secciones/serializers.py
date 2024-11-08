@@ -6,7 +6,7 @@ from estudiantes.models import Estudiante
 class SeccionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seccion
-        fields = '__all__'  # Ajusta los campos según sea necesario
+        fields = ['nombre', 'fecha_inicio', 'fecha_termino', 'curso', 'pagado']  # Ajusta los campos según sea necesario
 
 class EstudianteSerializer(serializers.ModelSerializer):
     class Meta:
