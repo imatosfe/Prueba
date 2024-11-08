@@ -1,6 +1,12 @@
+# secciones/serializers.py
 from rest_framework import serializers
 from .models import Seccion, SeccionEstudiante
 from estudiantes.models import Estudiante
+
+class SeccionSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Seccion
+        fields = '__all__'  # Ajusta los campos según sea necesario
 
 class SeccionSerializer(serializers.ModelSerializer):
     class Meta:

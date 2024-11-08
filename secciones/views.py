@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from estudiantes.models import Estudiante
 from .models import Seccion, SeccionEstudiante
-from .serializers import SeccionSerializer, SeccionEstudianteSerializer
+from .serializers import SeccionSerializer, SeccionSerializer2, SeccionEstudianteSerializer
 
 from rest_framework.decorators import api_view, schema
 
@@ -40,7 +40,7 @@ def obtener_seccion_api(request, seccion_id):
     # Obtener el objeto Seccion por su ID
     seccion = get_object_or_404(Seccion, id=seccion_id)
     # Serializar la información de la sección
-    serializer = SeccionSerializer(seccion)
+    serializer = SeccionSerializer2(seccion)
     # Retornar la información de la sección
     return Response(serializer.data, status=status.HTTP_200_OK)
 
