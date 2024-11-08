@@ -1,24 +1,20 @@
-# secciones/serializers.py
 from rest_framework import serializers
 from .models import Seccion, SeccionEstudiante
 from estudiantes.models import Estudiante
-from Cursos.models import Curso  # Asumo que tienes un modelo de curso
+
+class SeccionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Seccion
+        fields = '__all__'  # Ajusta los campos según sea necesario
 
 class EstudianteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Estudiante
-        fields = ['id', 'nombre']  # Ajusta según lo que necesites
+        fields = ['id', 'nombre']  # Ajusta los campos según sea necesario
 
 class SeccionEstudianteSerializer(serializers.ModelSerializer):
-    estudiante = EstudianteSerializer()  # Incluir los detalles del estudiante
-    # Puedes incluir otros campos relacionados, como 'nota'
+    estudiante = EstudianteSerializer()
+
     class Meta:
         model = SeccionEstudiante
-        fields = ['estudiante', 'nota']  # Incluye 'nota' si es necesario
-
-class SeccionSerializer(serializers.ModelSerializer):
-    estudiantes = SeccionEstudianteSerializer( many=True)  # Obtener la lista de estudiantes y sus notas
-
-    class Meta:
-        model = Seccion
-        fields = ['id', 'nombre', 'fecha_inicio', 'fecha_termino', 'pagado', 'curso', 'estudiantes']
+        fields = ['estudiante', 'nota']  # Ajusta los campos según sea necesario
