@@ -44,11 +44,23 @@ def obtener_seccion_api(request, seccion_id):
     # Retornar la información de la sección
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 @swagger_auto_schema(method='put', manual_parameters=[seccion_id_param])
 @api_view(['PUT'])
 def editar_seccion_api(request, seccion_id):
+    # Obtén la sección
     seccion = get_object_or_404(Seccion, id=seccion_id)
-    serializer = SeccionSerializer(seccion, data=request.data)
+
+    # Solo actualiza los campos de la sección (sin afectar la relación con estudiantes)
+    data = {
+        'nombre': request.data.get('nombre', seccion.nombre),
+        'curso': request.data.get('curso', seccion.curso.id),
+        'fecha_inicio': request.data.get('fecha_inicio', seccion.fecha_inicio),
+        'fecha_termino': request.data.get('fecha_termino', seccion.fecha_termino),
+        'pagado': request.data.get('pagado', seccion.pagado)
+    }
+
+    serializer = SeccionSerializer(seccion, data=data, partial=True)
 
     if serializer.is_valid():
         serializer.save()
