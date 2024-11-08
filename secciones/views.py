@@ -109,6 +109,52 @@ def gestionar_seccion_api(request, seccion_id):
 
 
 
+# Obtener los estudiantes de la sección
+@swagger_auto_schema(method='get')
+@api_view(['GET'])
+def obtener_estudiantes_en_seccion(request, seccion_id):
+    # Obtener la sección
+    seccion = get_object_or_404(Seccion, id=seccion_id)
+
+    # Obtener los estudiantes de esa sección
+    seccion_estudiantes = SeccionEstudiante.objects.filter(seccion=seccion)
+    
+    # Serializar los estudiantes
+    serializer = SeccionEstudianteSerializer(seccion_estudiantes, many=True)
+    return Response(serializer.data)
+
+
+# Agregar un estudiante a la sección
+@swagger_auto_schema(method='post', request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'estudiante_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID del estudiante a agregar')
+    }))
+@api_view(['POST'])
+def agregar_estudiante_a_seccion(request, seccion_id):
+    # Obtener la sección
+    seccion = get_object_or_404(Seccion, id=seccion_id)
+    
+    # Obtener el ID del estudiante
+    estudiante_id = request.data.get('estudiante_id')
+    
+    if not estudiante_id:
+        return Response({'success': False, 'error': 'No se proporcionó el ID del estudiante.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Obtener al estudiante
+    estudiante = get_object_or_404(Estudiante, id=estudiante_id)
+    
+    # Crear la relación Sección-Estudiante
+    seccion_estudiante, created = SeccionEstudiante.objects.get_or_create(seccion=seccion, estudiante=estudiante)
+    
+    if created:
+        return Response({'success': True, 'estudiante_id': estudiante.id, 'nombre': estudiante.nombre}, status=status.HTTP_201_CREATED)
+    else:
+        return Response({'success': False, 'error': 'El estudiante ya está inscrito en esta sección.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 # Eliminar estudiante de sección
 @swagger_auto_schema(method='delete', manual_parameters=[seccion_id_param, estudiante_id_param])
 @api_view(['DELETE'])

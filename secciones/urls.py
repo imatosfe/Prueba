@@ -4,11 +4,13 @@ from django.urls import path
 from .views import (
     CrearSeccionAPI,
     ListaSeccionesAPI,
+    agregar_estudiante_a_seccion,
     editar_seccion_api,
     gestionar_seccion_api,
     editar_estudiante_en_seccion_api,
     eliminar_seccion_api,
     eliminar_estudiante_api,
+    obtener_estudiantes_en_seccion,
     obtener_seccion_api,
 )
 
@@ -18,6 +20,9 @@ urlpatterns = [
   
     path('', CrearSeccionAPI.as_view(), name='crear_seccion'),
       path('secciones/obt/<int:seccion_id>/', obtener_seccion_api, name='obtener_seccion'),  # GET
+          path('<int:seccion_id>/estudiantes/', obtener_estudiantes_en_seccion, name='obtener_estudiantes_en_seccion'),  # GET
+    path('<int:seccion_id>/estudiantes/agregar/', agregar_estudiante_a_seccion, name='agregar_estudiante_a_seccion'),  # POST
+
   
     path('lista/', ListaSeccionesAPI.as_view(), name='lista_secciones'),
     path('/<int:seccion_id>/', gestionar_seccion_api, name='gestionar_seccion'),
