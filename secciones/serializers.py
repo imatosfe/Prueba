@@ -17,7 +17,7 @@ class SeccionEstudianteSerializer(serializers.ModelSerializer):
         fields = ['estudiante', 'nota']  # Incluye 'nota' si es necesario
 
 class SeccionSerializer(serializers.ModelSerializer):
-    estudiantes = SeccionEstudianteSerializer(source='seccionestudiante_set', many=True)  # Obtener la lista de estudiantes y sus notas
+    estudiantes = SeccionEstudianteSerializer( many=True)  # Obtener la lista de estudiantes y sus notas
 
     class Meta:
         model = Seccion
