@@ -34,6 +34,16 @@ class ListaSeccionesAPI(generics.ListAPIView):
     serializer_class = SeccionSerializer
     # secciones/views_api.py
 
+@swagger_auto_schema(method='get')
+@api_view(['GET'])
+def obtener_seccion_api(request, seccion_id):
+    # Obtener el objeto Seccion por su ID
+    seccion = get_object_or_404(Seccion, id=seccion_id)
+    # Serializar la información de la sección
+    serializer = SeccionSerializer(seccion)
+    # Retornar la información de la sección
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 @swagger_auto_schema(method='put', manual_parameters=[seccion_id_param])
 @api_view(['PUT'])
 def editar_seccion_api(request, seccion_id):
