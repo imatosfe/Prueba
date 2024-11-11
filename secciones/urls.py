@@ -12,6 +12,7 @@ from .views import (
     eliminar_estudiante_api,
     obtener_estudiantes_en_seccion,
     obtener_seccion_api,
+    obtener_estudiante_en_seccion2,
 )
 
 
@@ -30,4 +31,6 @@ urlpatterns = [
     path('<int:seccion_id>/estudiantes/<int:estudiante_id>/', editar_estudiante_en_seccion_api, name='editar_estudiante_en_seccion'),  # Nueva ruta
     path('eliminar/<int:seccion_id>', eliminar_seccion_api, name='eliminar_seccion'),
     path('<int:seccion_id>/elim_estudiantes/<int:estudiante_id>/', eliminar_estudiante_api, name='eliminar_estudiante'),
+    path('secciones/<int:seccion_id>/estudiantes/<int:estudiante_id>/', obtener_estudiante_en_seccion2, name='obtener_estudiante_en_seccion'),
+ 
 ]

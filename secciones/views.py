@@ -187,3 +187,20 @@ def editar_estudiante_en_seccion_api(request, seccion_id, estudiante_id):
             return Response({'success': False, 'error': 'La nota debe ser un número válido.'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'success': False, 'error': 'No se proporcionó la nota.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+@swagger_auto_schema(method='get', manual_parameters=[seccion_id_param, estudiante_id_param]) 
+@api_view(['GET'])
+def obtener_estudiante_en_seccion2(request, seccion_id, estudiante_id):
+    # Obtener la sección y el estudiante dentro de esa sección
+    seccion = get_object_or_404(Seccion, id=seccion_id)
+    seccion_estudiante = get_object_or_404(SeccionEstudiante, seccion=seccion, estudiante__id=estudiante_id)
+
+    # Retornar la información del estudiante y su nota
+    return Response({
+        'estudiante': {
+            'id': seccion_estudiante.estudiante.id,
+            'nombre': seccion_estudiante.estudiante.nombre
+        },
+        'nota': seccion_estudiante.nota
+    })
