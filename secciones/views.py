@@ -124,6 +124,10 @@ def obtener_estudiantes_en_seccion(request, seccion_id):
     return Response(serializer.data)
 
 
+
+
+
+
 # Agregar un estudiante a la sección
 @swagger_auto_schema(method='post', request_body=openapi.Schema(
     type=openapi.TYPE_OBJECT,
