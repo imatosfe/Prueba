@@ -127,6 +127,54 @@ def pagar_factura_api(request, cuenta_id, factura_id):
 
     return Response({"success": "Pago registrado."}, status=status.HTTP_200_OK)
 
+
+
+
+
+@api_view(['GET'])
+def obtener_detalle_factura(request, cuenta_id, factura_id):
+    # Obtener la cuenta y la factura
+    cuenta = get_object_or_404(CuentaPorCobrar, id=cuenta_id)
+    factura = get_object_or_404(Factura, id=factura_id)
+
+    # Obtener el estudiante asociado a la cuenta (suponiendo que la relación existe)
+    estudiante = cuenta.estudiante  # Relación entre CuentaPorCobrar y Estudiante
+
+    # Preparar los datos para enviar en formato JSON
+    factura_data = {
+        'id': factura.id,
+        'numero_factura': factura.numero_factura,
+        'total': factura.total,
+        'fecha_emision': factura.fecha_emision,
+        'pagado': factura.pagado,
+        'mes_correspondiente': factura.mes_correspondiente,
+    }
+
+    cuenta_data = {
+        'id': cuenta.id,
+        'estado': cuenta.estado,
+        'monto': cuenta.monto,
+        'fecha_creacion': cuenta.fecha_creacion,
+        'fecha_factura': cuenta.fecha_factura,
+        'mes_correspondiente': cuenta.mes_correspondiente,
+    }
+
+    estudiante_data = {
+        'id': estudiante.id,
+        'nombre': estudiante.nombre,
+        'apellido': estudiante.apellido,
+        'email': estudiante.email,
+        # Otros campos relevantes de Estudiante
+    }
+
+    # Responder con los datos en formato JSON
+    return Response({
+        'cuenta': cuenta_data,
+        'factura': factura_data,
+        'estudiante': estudiante_data,  # Añadimos la información del estudiante
+    })
+
+
 @api_view(['GET'])
 def listar_facturas_api(request):
     try:
