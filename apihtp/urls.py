@@ -43,7 +43,7 @@ urlpatterns = [
     path('estudiantes/', include('estudiantes.urls')),  # API para "estudiantes"
       path('cursos/', include('Cursos.urls')),  # API para "estudiantes"
      
-     
+         path('usuarios/', include('usuarioshtp.urls')),  
      
      
       path('secciones/', include('secciones.urls')),  # Incluir las URLs de la app "secciones"

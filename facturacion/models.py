@@ -15,6 +15,7 @@ class CuentaPorCobrar(models.Model):
     seccion = models.ForeignKey(Seccion, on_delete=models.CASCADE)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     fecha_creacion = models.DateField(auto_now_add=True)
+    
     fecha_factura = models.DateField()  # Agrega este campo
     mes_correspondiente = models.CharField(max_length=20)  # Agrega el campo para el mes correspondiente
     

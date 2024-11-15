@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'estudiantes',
       'corsheaders',
        'drf_yasg', 
-
+ 'rest_framework.authtoken',  
   
     'profesores',
     'Cursos',
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
   
     'facturacion',
        'reportes',
+         'usuarioshtp',
 
 
 ]
@@ -140,7 +141,14 @@ import os
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Usamos la autenticación por token
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Requiere estar autenticado para acceder a las vistas
+    ],
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
