@@ -148,6 +148,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',  # Requiere estar autenticado para acceder a las vistas
     ],
+        'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',  # Esta es la configuración para aceptar JSON
+    ],
 }
 
 # Default primary key field type

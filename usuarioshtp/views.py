@@ -52,8 +52,15 @@ class LoginView(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            # Intentar parsear el cuerpo de la solicitud manualmente
-            data = json.loads(request.body)
+            # Verificamos si la solicitud tiene el contenido correcto y tratamos de parsear JSON
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)  # Forzamos el parseo a JSON
+            else:
+                return Response(
+                    {"detail": "El tipo de contenido debe ser application/json."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             username = data.get('username')
             password = data.get('password')
 
@@ -63,6 +70,7 @@ class LoginView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
+            # Intentamos autenticar al usuario
             user = authenticate(username=username, password=password)
 
             if user is None:
@@ -71,6 +79,7 @@ class LoginView(APIView):
                     status=status.HTTP_401_UNAUTHORIZED
                 )
 
+            # Eliminar cualquier token anterior y generar uno nuevo
             Token.objects.filter(user=user).delete()
             token = Token.objects.create(user=user)
 
