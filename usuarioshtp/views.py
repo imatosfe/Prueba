@@ -45,42 +45,49 @@ class CambiarPasswordView(generics.UpdateAPIView):
             return Response({"old_password": ["La contraseña actual es incorrecta."]}, status=status.HTTP_400_BAD_REQUEST)
 
 
+import json
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        print("Datos recibidos:", request.data)  # Verifica los datos recibidos
-        username = request.data.get('username')
-        password = request.data.get('password')
+        try:
+            # Intentar parsear el cuerpo de la solicitud manualmente
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
 
-        if not username or not password:
-            return Response(
-                {"detail": "El nombre de usuario y la contraseña son requeridos."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            if not username or not password:
+                return Response(
+                    {"detail": "El nombre de usuario y la contraseña son requeridos."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)
 
-        if user is None:
-            return Response(
-                {"detail": "Credenciales incorrectas."},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+            if user is None:
+                return Response(
+                    {"detail": "Credenciales incorrectas."},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
 
-        Token.objects.filter(user=user).delete()
-        token = Token.objects.create(user=user)
+            Token.objects.filter(user=user).delete()
+            token = Token.objects.create(user=user)
 
-        return Response({
-            'token': token.key,
-            'user_id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'nombre': user.nombre,
-            'apellido': user.apellido,
-            'usuario_activo': user.usuario_activo,
-            'usuario_administrador': user.usuario_administrador
-        }, status=status.HTTP_200_OK)
+            return Response({
+                'token': token.key,
+                'user_id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'nombre': user.nombre,
+                'apellido': user.apellido,
+                'usuario_activo': user.usuario_activo,
+                'usuario_administrador': user.usuario_administrador
+            }, status=status.HTTP_200_OK)
+
+        except json.JSONDecodeError:
+            return Response({"detail": "Error al procesar el JSON."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]  # El usuario debe estar autenticado
