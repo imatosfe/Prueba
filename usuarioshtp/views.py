@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 
 
 
@@ -114,11 +115,17 @@ class LogoutView(APIView):
 
 
 class VerifyTokenView(APIView):
-    permission_classes = [IsAuthenticated]  # Asegúrate de que el usuario esté autenticado
+    authentication_classes = [TokenAuthentication]  # Usamos TokenAuthentication
+    permission_classes = []  # No necesitamos permisos ya que la autenticación del token es suficiente
 
     def post(self, request, *args, **kwargs):
-        return Response({"isValid": True}, status=200)
+        # Verifica si el token es válido
+        user = request.user  # Si el token es válido, el usuario será autenticado automáticamente
 
+        if user.is_authenticated:
+            return Response({"is_authenticated": True}, status=200)
+        else:
+            raise AuthenticationFailed("Token no válido o expirado.")
 
 
 class PaginaPrincipalView(APIView):
