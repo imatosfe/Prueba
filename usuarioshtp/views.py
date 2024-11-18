@@ -46,11 +46,11 @@ class CambiarPasswordView(generics.UpdateAPIView):
 
 
 
-
 class LoginView(APIView):
-    permission_classes = [AllowAny]  # Permite que cualquier usuario acceda
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
+        print("Datos recibidos:", request.data)  # Verifica los datos recibidos
         username = request.data.get('username')
         password = request.data.get('password')
 
@@ -60,7 +60,6 @@ class LoginView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Autenticamos al usuario utilizando el modelo personalizado
         user = authenticate(username=username, password=password)
 
         if user is None:
@@ -69,10 +68,7 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
-        # Eliminar cualquier token anterior del usuario (para evitar múltiples tokens activos)
         Token.objects.filter(user=user).delete()
-
-        # Generar un nuevo token para el usuario
         token = Token.objects.create(user=user)
 
         return Response({
@@ -85,7 +81,6 @@ class LoginView(APIView):
             'usuario_activo': user.usuario_activo,
             'usuario_administrador': user.usuario_administrador
         }, status=status.HTTP_200_OK)
-
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]  # El usuario debe estar autenticado
