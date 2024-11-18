@@ -107,3 +107,23 @@ class VerifyTokenView(APIView):
 
     def post(self, request, *args, **kwargs):
         return Response({"isValid": True}, status=200)
+
+
+
+class PaginaPrincipalView(APIView):
+    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados pueden acceder
+
+    def get(self, request, *args, **kwargs):
+        # Obtener los detalles del usuario autenticado
+        user = request.user
+
+        # Responder con los datos del usuario en formato JSON
+        return Response({
+            'user_id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'nombre': user.nombre,
+            'apellido': user.apellido,
+            'usuario_activo': user.usuario_activo,
+            'usuario_administrador': user.usuario_administrador,
+        }, status=status.HTTP_200_OK)       

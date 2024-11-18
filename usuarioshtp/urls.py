@@ -1,10 +1,12 @@
 from django.urls import path
 from .views import (
-    LoginView, LogoutView, 
+    LoginView, LogoutView, PaginaPrincipalView, 
     UsuarioListCreateView, UsuarioDetailView, CambiarPasswordView, VerifyTokenView
 )
 
 urlpatterns = [
+     path('pagina-principal/', PaginaPrincipalView.as_view(), name='pagina-principal'),
+ 
     # Login - Autenticar al usuario y obtener un token
     path('login/', LoginView.as_view(), name='login'),
     
