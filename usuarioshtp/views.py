@@ -13,7 +13,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate
-
+from rest_framework.authentication import TokenAuthentication
 
 
 
@@ -122,7 +122,9 @@ class VerifyTokenView(APIView):
 
 
 class PaginaPrincipalView(APIView):
-    permission_classes = [IsAuthenticated]  # Solo usuarios autenticados pueden acceder
+    authentication_classes = [TokenAuthentication]  # Verifica el token usando Django Rest Framework
+    permission_classes = [IsAuthenticated]  # Asegura que solo los usuarios autenticados puedan acceder
+
 
     def get(self, request, *args, **kwargs):
         # Obtener los detalles del usuario autenticado
