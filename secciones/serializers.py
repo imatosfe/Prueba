@@ -16,7 +16,7 @@ class SeccionSerializer(serializers.ModelSerializer):
 class EstudianteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Estudiante
-        fields = ['id', 'nombre']  # Ajusta los campos según sea necesario
+        fields = ['id', 'nombre',  'apillido']  # Ajusta los campos según sea necesario
 
 class SeccionEstudianteSerializer(serializers.ModelSerializer):
     estudiante = EstudianteSerializer()
