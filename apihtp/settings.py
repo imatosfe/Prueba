@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'apihtp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db1.sqlite3',
          'OPTIONS': {
             'timeout': 20,  # Puedes ajustar el tiempo de espera
         }
